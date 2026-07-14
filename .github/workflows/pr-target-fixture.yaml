@@ -1,0 +1,13 @@
+name: label pr
+on:
+  pull_request_target: {}
+permissions:
+  contents: read
+jobs:
+  label:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v5
+        with:
+          ref: ${{ github.event.pull_request.head.sha }}
+      - run: echo "checked out PR head (demo fixture; no further use of the checkout)"
