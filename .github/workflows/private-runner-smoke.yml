@@ -1,0 +1,25 @@
+name: Private runner smoke
+
+# Safe acceptance check: never signs, deploys, or creates a release.
+on:
+  workflow_dispatch:
+  push:
+    branches: ['chore/1-private-runners']
+    paths: ['.github/workflows/**']
+
+permissions:
+  contents: read
+
+jobs:
+  smoke:
+    runs-on: [self-hosted, Linux, X64, private-ubuntu]
+    timeout-minutes: 20
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+      - name: Representative non-release check
+        shell: bash
+        run: |
+          docker version
+          git --version
