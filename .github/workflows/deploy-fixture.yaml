@@ -3,7 +3,9 @@ on:
   workflow_dispatch: {}
 jobs:
   deploy:
-    runs-on: [self-hosted, linux, x64]
+    # Never execute external pull-request code on a persistent private host.
+    if: github.event_name != 'pull_request' && github.event_name != 'pull_request_target' || github.event.pull_request.head.repo.full_name == github.repository
+    runs-on: [self-hosted, Linux, X64, private-ubuntu]
     steps:
       - uses: docker/build-push-action@v6
       - uses: aws-actions/configure-aws-credentials@v4
